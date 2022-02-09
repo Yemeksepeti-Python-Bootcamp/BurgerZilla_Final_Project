@@ -7,10 +7,10 @@ class AuthDto:
         "email": fields.String,
         "username": fields.String,
         "name": fields.String,
-        "type": fields.String,
+        "usertype_id": fields.String,
     })
 
-    #login yaparken bu iki datayı bana sal 
+    #login yaparken bu iki datayı almayı bekliyorum 
     auth_login = api.model('Login Data', {
         "email": fields.String(required=True, description="User email address"),
         "password": fields.String(required=True, description="User password")
@@ -21,7 +21,8 @@ class AuthDto:
     { "email": fields.String(required=True, description="User email address"),
         "username": fields.String(required=True, description="User username"),
         "name": fields.String(required=True, description="User name"),
-        "password": fields.String(required=True, description="User password")
+        "password": fields.String(required=True, description="User password"),
+        "usertype_id": fields.Integer(required=False, description="User type id")
     })
 
     auth_success = api.model('Auth Success Response', 
