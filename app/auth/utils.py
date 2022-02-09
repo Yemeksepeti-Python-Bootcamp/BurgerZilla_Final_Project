@@ -28,3 +28,4 @@ class RegisterSchema(Schema):
     username = fields.Str(required=True,validate=[Length(min=4, max=15)])
     name = fields.Str(required=True,validate=[Length(min=4, max=15)])    
     password = fields.Str(required=True, validate=[Length(min=8, max=128)])
+    usertype_id = fields.Integer(required=False)
