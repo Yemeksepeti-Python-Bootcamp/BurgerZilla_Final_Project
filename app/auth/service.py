@@ -52,8 +52,7 @@ class AuthService:
             user = User(email=email,
                             username=username,
                             name=name,
-                            password=password,
-                            joined_date=datetime.utcnow())
+                            password=password)
             db.session.add(user) # kullanıcı veri tabanına ekleniyor
             db.session.commit() # veri tabanına eklenen kullanıcı kaydediliyor
 
