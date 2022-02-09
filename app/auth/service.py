@@ -42,6 +42,10 @@ class AuthService:
         username = data.get('username')
         name = data.get('name')
         password = data.get('password')
+        if data.get('usertype_id') is None:
+            usertype_id = 0
+        else:
+            usertype_id = data.get('usertype_id')
 
         if User.query.filter_by(email=email).first():
             return err_resp('Bu email adresi kullanılıyor',"email_409",409)
@@ -52,7 +56,8 @@ class AuthService:
             user = User(email=email,
                             username=username,
                             name=name,
-                            password=password)
+                            password=password,
+                            usertype_id=usertype_id)
             db.session.add(user) # kullanıcı veri tabanına ekleniyor
             db.session.commit() # veri tabanına eklenen kullanıcı kaydediliyor
 
