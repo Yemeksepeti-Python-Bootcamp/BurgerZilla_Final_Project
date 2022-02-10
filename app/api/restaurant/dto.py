@@ -10,6 +10,15 @@ class RestaurantDto:
         "userid": fields.Integer(required=True, description="Restaurant owner id")
     })
 
+    product = api.model("Product",{
+        
+        "name": fields.String(required=True, description="Product name"),
+        "price": fields.Float(required=True, description="Product price"),
+        "description": fields.String(required=True, description="Product description"),
+        "image": fields.String(required=True, description="Product image"),
+        "restaurantid": fields.Integer(required=True, description="Product restaurant id")
+    })
+
     data_resp = api.model("Restaura data response",{
         "status":fields.Boolean,
         "message":fields.String,
