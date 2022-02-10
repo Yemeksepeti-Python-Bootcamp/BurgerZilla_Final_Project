@@ -3,6 +3,7 @@ from app.models.schemas import RestaurantSchema
 from app.utils import err_resp,internal_err_resp,message
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.restaurant import Restaurant
+from app.models.product import Product
 from app import db
 
 
@@ -38,7 +39,7 @@ class RestaurantService:
             return internal_err_resp()
 
     @staticmethod
-    def create(user_id,restaurant_data):
+    def create_restaurant(user_id,restaurant_data):
         """
         Create a new restaurant"""
         try:
@@ -69,7 +70,7 @@ class RestaurantService:
     @staticmethod
     def get_all(user_id):
         """
-        Get all restaurants of a specific user"""
+        Get aLL restaurants by owner id"""
         if not(restaurants := Restaurant.query.filter_by(userid=user_id)):
             return err_resp(message="restaurants not found",status=400)
         from .utils import load_data
@@ -78,6 +79,56 @@ class RestaurantService:
             resp=message(True,"Restaurants loaded successfully")
             resp["restaurants"]=restaurants_data
             return resp,200
+        except Exception as e:
+            current_app.logger.error(e)
+            return internal_err_resp()
+
+    @staticmethod
+    def get_all_products(restaurant_id): #bir restoranin tüm ürünlerini getirir
+        """
+        Get all products of a specific restaurant
+        
+        """
+        if not(products := Product.query.filter_by(restaurant_id=restaurant_id)):
+            return err_resp(message="products not found",status=400)
+        from .utils import load_product_data
+        try:
+            products_data = [load_product_data(product) for product in products]
+            resp=message(True,"Restaurants loaded successfully")
+            resp["products"]=products_data
+            return resp,200
+        except Exception as e:
+            current_app.logger.error(e)
+            return internal_err_resp()
+    
+    @staticmethod
+    def get_product(restaurant_id,product_id):
+        """
+        Get a product of a specific restaurant
+        
+        """
+        if not(product := Product.query.filter_by(restaurant_id=restaurant_id,id=product_id).first()):
+            return err_resp(message="product not found",status=400)
+        from .utils import load_product_data
+        try:
+            product_data = load_product_data(product)
+            resp=message(True,"Product loaded successfully")
+            resp["product"]=product_data
+            return resp,200
+        except Exception as e:
+            current_app.logger.error(e)
+            return internal_err_resp()
+    
+    @staticmethod
+    def create_product(restaurant_id,product_data):
+        """
+        Create a new product"""
+        try:            
+            current_user = get_jwt_identity()
+            product = Product(name=product_data["name"],price=product_data["price"],description=product_data["description"],image=product_data["image"],restaurant_id=restaurant_id)
+            db.session.add(product)
+            db.session.commit()
+            return message(True,"Product created successfully")
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
