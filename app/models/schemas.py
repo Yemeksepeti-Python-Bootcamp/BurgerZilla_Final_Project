@@ -21,3 +21,9 @@ class ProductSchema(ma.Schema):
     class Meta:
         # Fields to expose, add more if needed.
         fields = ("id", "name", "price", "description", "image", "restaurant_id")
+
+class OrderSchema(ma.Schema):
+    class Meta:
+        # Fields to expose, add more if needed.
+        fields = ("id", "product_id", "restaurant_id", "userid", "orderstatus", "orderdate")
+

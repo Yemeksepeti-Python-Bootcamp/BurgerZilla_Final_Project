@@ -16,6 +16,7 @@ class User(Model):
     password_hash = Column(db.String(128))
     usertype_id = Column(db.Integer, db.ForeignKey('user_types.id'), default=DEFAULT_USERTYPE)
     restaurants=relationship('Restaurant', backref='user', lazy='dynamic')
+    orders=relationship('Order', backref='user', lazy='dynamic')
     
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
