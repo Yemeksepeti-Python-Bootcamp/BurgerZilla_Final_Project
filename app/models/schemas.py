@@ -16,3 +16,8 @@ class UserTypeSchema(ma.Schema):
     class Meta:
         # Fields to expose, add more if needed.
         fields = ("id", "type")
+
+class ProductSchema(ma.Schema):
+    class Meta:
+        # Fields to expose, add more if needed.
+        fields = ("id", "name", "price", "description", "image", "restaurant_id")
