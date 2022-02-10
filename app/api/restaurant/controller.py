@@ -7,6 +7,7 @@ from .dto import RestaurantDto
 
 api = RestaurantDto.api #restaurant namespace
 restaurant=RestaurantDto.restaurant
+product=RestaurantDto.product
 data_resp=RestaurantDto.data_resp
 data_list_resp=RestaurantDto.data_list_resp
 
@@ -53,4 +54,31 @@ class RestaurantList(Resource):
         """
         Create a new restaurant whose owner is the user_id"""
         data = request.get_json()
-        return RestaurantService.create(user_id,data)
+        return RestaurantService.create_restaurant(user_id,data)
+
+@api.route("/<int:restaurant_id>/products")
+class RestaurantProducts(Resource):
+    @api.doc("Get products of a specific restaurant",responses={200:"Success",500:"Internal Server Error"})
+    @jwt_required()
+    def get(self,restaurant_id):
+        """
+        Get all products of a specific restaurant"""
+        return RestaurantService.get_all_products(restaurant_id)
+
+    @api.doc("Create a new product",responses={200:"Success",500:"Internal Server Error"})
+    @api.expect(product)
+    @jwt_required()
+    def post(self,restaurant_id):
+        """
+        Create a new product of a specific restaurant"""
+        data = request.get_json()
+        return RestaurantService.create_product(restaurant_id,data)
+
+@api.route("/<int:restaurant_id>/products/<int:product_id>")
+class RestaurantProducts(Resource):
+    @api.doc("Get specific product from specific restaurant",responses={200:"Success",500:"Internal Server Error"})
+    @jwt_required()
+    def get(self,restaurant_id,product_id):
+        """
+        Get all products of a specific restaurant"""
+        return RestaurantService.get_product(restaurant_id,product_id)
