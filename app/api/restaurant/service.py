@@ -1,9 +1,11 @@
+from datetime import datetime
 from flask import current_app
 from app.models.schemas import RestaurantSchema
 from app.utils import err_resp,internal_err_resp,message
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.restaurant import Restaurant
 from app.models.product import Product
+from app.models.order import Order
 from app import db
 
 
@@ -132,3 +134,54 @@ class RestaurantService:
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
+
+    @staticmethod
+    def create_order(restaurant_id,order_data):
+        """
+        Create a new order"""
+        try:            
+            current_user = get_jwt_identity()
+            order = Order(userid=current_user,restaurant_id=restaurant_id,product_id=order_data["product_id"],orderstatus=order_data["orderstatus"],orderdate=datetime.utcnow())
+            db.session.add(order)
+            db.session.commit()
+            return message(True,"Order created successfully")
+        except Exception as e:
+            current_app.logger.error(e)
+            return internal_err_resp()
+
+    @staticmethod
+    def get_order(restaurant_id,order_id):
+        """
+        Get an order of a specific restaurant
+        
+        """
+        if not(order := Order.query.filter_by(restaurant_id=restaurant_id,id=order_id).first()):
+            return err_resp(message="order not found",status=400)
+        from .utils import load_order_data
+        try:
+            order_data = load_order_data(order)
+            resp=message(True,"Order loaded successfully")
+            resp["order"]=order_data
+            return resp,200
+        except Exception as e:
+            current_app.logger.error(e)
+            return internal_err_resp()
+
+    @staticmethod
+    def get_all_orders(restaurant_id):
+        """
+        Get all orders of a specific restaurant
+        
+        """
+        if not(orders := Order.query.filter_by(restaurant_id=restaurant_id)):
+            return err_resp(message="orders not found",status=400)
+        from .utils import load_order_data
+        try:
+            orders_data = [load_order_data(order) for order in orders]
+            resp=message(True,"Orders loaded successfully")
+            resp["orders"]=orders_data
+            return resp,200
+        except Exception as e:
+            current_app.logger.error(e)
+            return internal_err_resp()
+

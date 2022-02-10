@@ -19,6 +19,14 @@ class RestaurantDto:
         "restaurantid": fields.Integer(required=True, description="Product restaurant id")
     })
 
+    order = api.model("Order",{
+        "productid": fields.Integer(required=True, description="Product id"),
+        "restaurantid": fields.Integer(required=True, description="Restaurant id"),
+        "userid": fields.Integer(required=True, description="User id"),
+        "orderstatus": fields.String(required=True, description="Order status"),
+        "orderdate": fields.DateTime(required=True, description="Order date")
+    })
+
     data_resp = api.model("Restaura data response",{
         "status":fields.Boolean,
         "message":fields.String,

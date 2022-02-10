@@ -8,8 +8,11 @@ from .dto import RestaurantDto
 api = RestaurantDto.api #restaurant namespace
 restaurant=RestaurantDto.restaurant
 product=RestaurantDto.product
+order=RestaurantDto.order
 data_resp=RestaurantDto.data_resp
 data_list_resp=RestaurantDto.data_list_resp
+
+
 
 @api.route('/<int:restaurant_id>')
 class Restaurant(Resource):
@@ -82,3 +85,36 @@ class RestaurantProducts(Resource):
         """
         Get all products of a specific restaurant"""
         return RestaurantService.get_product(restaurant_id,product_id)
+
+##############################################################################################
+# API/RESTAURANT/ORDER
+##############################################################################################
+
+@api.route("/<int:restaurant_id>/orders/<int:order_id>")
+class RestaurantOrders(Resource):
+    @api.doc("Get specific order from specific restaurant",responses={200:"Success",500:"Internal Server Error"})
+    @jwt_required()
+    def get(self,restaurant_id,order_id):
+        """
+        Get all orders of a specific restaurant
+        """
+        return RestaurantService.get_order(restaurant_id,order_id)
+
+@api.route("/<int:restaurant_id>/orders")
+class RestaurantOrders(Resource):
+    @api.doc("Get all orders of a specific restaurant",responses={200:"Success",500:"Internal Server Error"})
+    #@jwt_required() 
+    def get(self,restaurant_id):
+        """
+        Get all orders of a specific restaurant
+        """
+        return RestaurantService.get_all_orders(restaurant_id)
+
+    @api.doc("Create a new order",responses={200:"Success",500:"Internal Server Error"})
+    @api.expect(order)
+    @jwt_required()
+    def post(self,restaurant_id):
+        """
+        Create a new product of a specific restaurant"""
+        data = request.get_json()
+        return RestaurantService.create_order(restaurant_id,data)
