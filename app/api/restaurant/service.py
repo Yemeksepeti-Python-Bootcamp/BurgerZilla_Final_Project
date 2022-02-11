@@ -141,7 +141,8 @@ class RestaurantService:
         Create a new order"""
         try:            
             current_user = get_jwt_identity()
-            order = Order(userid=current_user,restaurant_id=restaurant_id,product_id=order_data["product_id"],orderstatus=order_data["orderstatus"],orderdate=datetime.utcnow())
+            order = Order(userid=current_user,restaurant_id=restaurant_id,
+            product_id=order_data["product_id"],orderstatus="NEW",orderdate=datetime.utcnow())
             db.session.add(order)
             db.session.commit()
             return message(True,"Order created successfully")
