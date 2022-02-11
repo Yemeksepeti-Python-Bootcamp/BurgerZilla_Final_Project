@@ -201,3 +201,20 @@ class RestaurantService:
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
+
+    @staticmethod
+    def update_product(restaurant_id,product_id,product_data):
+        """
+        Update a product of a specific restaurant
+        
+        """
+        #product_data = {key:value for (key,value) in product_data.items()}
+        if not(product := Product.query.filter_by(restaurant_id=restaurant_id,id=product_id).first()):
+            return err_resp(message="product not found",status=400)
+        try:
+            Product.query.filter_by(id=product_id).update(product_data)
+            db.session.commit()
+            return message(True,"Product updated successfully")
+        except Exception as e:
+            current_app.logger.error(e)
+            return internal_err_resp()

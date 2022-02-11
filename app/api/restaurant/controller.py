@@ -85,6 +85,15 @@ class RestaurantProducts(Resource):
         """
         Get all products of a specific restaurant"""
         return RestaurantService.get_product(restaurant_id,product_id)
+    
+    @api.doc("Update a specific product",responses={200:"Success",500:"Internal Server Error"})
+    @api.expect(product)
+    @jwt_required()
+    def put(self,restaurant_id,product_id):
+        """
+        Update a specific product of a specific restaurant"""
+        data = request.get_json()
+        return RestaurantService.update_product(restaurant_id,product_id,data)
 
 ##############################################################################################
 # API/RESTAURANT/ORDER
