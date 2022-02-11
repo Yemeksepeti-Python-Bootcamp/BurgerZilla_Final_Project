@@ -221,3 +221,19 @@ class RestaurantService:
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
+
+    @staticmethod
+    def delete_product(restaurant_id,product_id):
+        """
+        Delete a product of a specific restaurant
+        
+        """
+        if not(product := Product.query.filter_by(restaurant_id=restaurant_id,id=product_id).first()):
+            return err_resp(message="product or restaurant not found",status=400)
+        try:
+            db.session.delete(product)
+            db.session.commit()
+            return message(True,"Product deleted successfully")
+        except Exception as e:
+            current_app.logger.error(e)
+            return internal_err_resp()

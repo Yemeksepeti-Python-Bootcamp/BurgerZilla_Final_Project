@@ -62,7 +62,7 @@ class RestaurantList(Resource):
 @api.route("/<int:restaurant_id>/products")
 class RestaurantProducts(Resource):
     @api.doc("Get products of a specific restaurant",responses={200:"Success",500:"Internal Server Error"})
-    @jwt_required()
+    #@jwt_required()
     def get(self,restaurant_id):
         """
         Get all products of a specific restaurant"""
@@ -80,10 +80,10 @@ class RestaurantProducts(Resource):
 @api.route("/<int:restaurant_id>/products/<int:product_id>")
 class RestaurantProducts(Resource):
     @api.doc("Get specific product from specific restaurant",responses={200:"Success",500:"Internal Server Error"})
-    @jwt_required()
+    #@jwt_required()
     def get(self,restaurant_id,product_id):
         """
-        Get all products of a specific restaurant"""
+        Get specific product from a specific restaurant"""
         return RestaurantService.get_product(restaurant_id,product_id)
     
     @api.doc("Update a specific product",responses={200:"Success",500:"Internal Server Error"})
@@ -94,6 +94,13 @@ class RestaurantProducts(Resource):
         Update a specific product of a specific restaurant"""
         data = request.get_json()
         return RestaurantService.update_product(restaurant_id,product_id,data)
+
+    @api.doc("Delete a specific product",responses={200:"Success",500:"Internal Server Error"})
+    @jwt_required()
+    def delete(self,restaurant_id,product_id):
+        """
+        Delete a specific product of a specific restaurant"""
+        return RestaurantService.delete_product(restaurant_id,product_id)
 
 ##############################################################################################
 # API/RESTAURANT/ORDER
