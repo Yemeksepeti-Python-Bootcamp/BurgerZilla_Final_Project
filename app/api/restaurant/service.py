@@ -178,7 +178,10 @@ class RestaurantService:
         from .utils import load_order_data
         try:
             orders_data = [load_order_data(order) for order in orders]
-            resp=message(True,"Orders loaded successfully")
+            if len(orders_data)==0:
+                resp=message(True,"Restaurant has no orders yet")
+            else:
+                resp=message(True,"Orders loaded successfully")
             resp["orders"]=orders_data
             return resp,200
         except Exception as e:
