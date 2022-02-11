@@ -100,6 +100,16 @@ class RestaurantOrders(Resource):
         """
         return RestaurantService.get_order(restaurant_id,order_id)
 
+    @api.doc("Update a status of an order",responses={200:"Success",500:"Internal Server Error"})
+    #@api.expect(order)
+    @jwt_required()
+    def put(self,restaurant_id,order_id):
+        """
+        Update a specific order of a specific restaurant
+        """
+        data = request.get_json()
+        return RestaurantService.update_order(restaurant_id,order_id,data)
+
 @api.route("/<int:restaurant_id>/orders")
 class RestaurantOrders(Resource):
     @api.doc("Get all orders of a specific restaurant",responses={200:"Success",500:"Internal Server Error"})
@@ -118,3 +128,4 @@ class RestaurantOrders(Resource):
         Create a new product of a specific restaurant"""
         data = request.get_json()
         return RestaurantService.create_order(restaurant_id,data)
+    

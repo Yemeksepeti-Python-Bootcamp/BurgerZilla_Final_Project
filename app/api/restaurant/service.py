@@ -185,3 +185,19 @@ class RestaurantService:
             current_app.logger.error(e)
             return internal_err_resp()
 
+    @staticmethod
+    def update_order(restaurant_id,order_id,order_data):
+        """
+        Update an order of a specific restaurant
+        
+        """
+        if not(order := Order.query.filter_by(restaurant_id=restaurant_id,id=order_id).first()):
+            return err_resp(message="order not found",status=400)
+        try:
+            order_status = order_data["orderstatus"]
+            Order.query.filter_by(id=order_id).update({"orderstatus":order_status})
+            db.session.commit()
+            return message(True,"Order status updated successfully")
+        except Exception as e:
+            current_app.logger.error(e)
+            return internal_err_resp()
