@@ -160,8 +160,13 @@ class RestaurantService:
         Get an order of a specific restaurant
         
         """
+        current_user=get_jwt_identity()
+        if not(restaurant := Restaurant.query.get(restaurant_id)):
+            return err_resp("restaurant not found","restaurant404",400)
+        if current_user != restaurant.userid:
+            return err_resp("You are not authorized to see restaurant orders","YoureNotRestaurantOwner 401",401)  
         if not(order := Order.query.filter_by(restaurant_id=restaurant_id,id=order_id).first()):
-            return err_resp(message="order not found",status=400)
+            return err_resp("This order not found in given restaurant","OrderNotFound 404",404)
         from .utils import load_order_data
         try:
             order_data = load_order_data(order)
@@ -204,8 +209,13 @@ class RestaurantService:
         Update an order of a specific restaurant
         
         """
+        current_user=get_jwt_identity()
+        if not(restaurant := Restaurant.query.get(restaurant_id)):
+            return err_resp("restaurant not found","restaurant404",400)
+        if current_user != restaurant.userid:
+            return err_resp("You are not authorized to change restaurant orders","YoureNotRestaurantOwner 401",401)  
         if not(order := Order.query.filter_by(restaurant_id=restaurant_id,id=order_id).first()):
-            return err_resp(message="order not found",status=400)
+            return err_resp("This order not found in given restaurant","OrderNotFound 404",404)
         try:
             order_status = order_data["orderstatus"]
             Order.query.filter_by(id=order_id).update({"orderstatus":order_status})
