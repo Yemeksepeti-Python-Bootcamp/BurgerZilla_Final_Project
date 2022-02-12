@@ -1,5 +1,6 @@
 from datetime import datetime
 from flask import current_app
+from .utils import load_data
 from app.models.schemas import RestaurantSchema
 from app.utils import err_resp,internal_err_resp,message
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -35,13 +36,16 @@ class RestaurantService:
         try:
             db.session.delete(restaurant)
             db.session.commit()
-            return message(True,"Restaurant deleted successfully")
+            deleted_restaurant_data=load_data(restaurant)
+            resp=message(True,"Restaurant deleted successfully")
+            resp["restaurant"]=deleted_restaurant_data
+            return resp,200
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
 
     @staticmethod
-    def create_restaurant(user_id,restaurant_data):
+    def create_restaurant(restaurant_data):
         """
         Create a new restaurant"""
         try:
@@ -50,13 +54,16 @@ class RestaurantService:
             restaurant = Restaurant(name=restaurant_data["name"],userid=current_user)
             db.session.add(restaurant)
             db.session.commit()
-            return message(True,"Restaurant created successfully")
+            created_restaurant_data=load_data(restaurant)
+            resp=message(True,"Restaurant created successfully")
+            resp["restaurant"]=created_restaurant_data
+            return resp,200
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
 
     @staticmethod
-    def update_by_id(restaurant_id,restaurant_data):
+    def update_restaurant(restaurant_id,restaurant_data):
         """
         update a restaurant by id"""
         if not (restaurant:=Restaurant.query.get(restaurant_id)):
@@ -64,7 +71,10 @@ class RestaurantService:
         try:
             Restaurant.query.filter_by(id=restaurant_id).update(restaurant_data)
             db.session.commit()
-            return message(True,"Restaurant updated successfully")
+            created_restaurant_data=load_data(restaurant)
+            resp=message(True,"Restaurant updated successfully")
+            resp["restaurant"]=created_restaurant_data
+            return resp,200
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
