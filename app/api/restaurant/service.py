@@ -127,6 +127,10 @@ class RestaurantService:
         Create a new product"""
         try:            
             current_user = get_jwt_identity()
+            if not(restaurant := Restaurant.query.get(restaurant_id)):
+                return err_resp("Restaurant not found","restaurant404",400)
+            if current_user != restaurant.userid:
+                return err_resp("You are not authorized to create product","YoureNotRestaurantOwner 401",401)
             product = Product(name=product_data["name"],price=product_data["price"],description=product_data["description"],image=product_data["image"],restaurant_id=restaurant_id)
             db.session.add(product)
             db.session.commit()
@@ -174,6 +178,11 @@ class RestaurantService:
         Get all orders of a specific restaurant
         
         """
+        current_user=get_jwt_identity()
+        if not(restaurant := Restaurant.query.get(restaurant_id)):
+            return err_resp("restaurant not found","restaurant404",400)
+        if current_user != restaurant.userid:
+            return err_resp("You are not authorized to see restaurant orders","YoureNotRestaurantOwner 401",401)            
         if not(orders := Order.query.filter_by(restaurant_id=restaurant_id)):
             return err_resp(message="orders not found",status=400)
         from .utils import load_order_data

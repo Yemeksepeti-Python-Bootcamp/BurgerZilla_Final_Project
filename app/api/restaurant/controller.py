@@ -61,11 +61,11 @@ class RestaurantList(Resource):
 
 @api.route("/<int:restaurant_id>/products")
 class RestaurantProducts(Resource):
-    @api.doc("Get products of a specific restaurant",responses={200:"Success",500:"Internal Server Error"})
+    @api.doc("Get all products of a restaurant(Get Menu) ",responses={200:"Success",500:"Internal Server Error"})
     #@jwt_required()
     def get(self,restaurant_id):
         """
-        Get all products of a specific restaurant"""
+        Get all products of a restaurant(Get Menu)"""
         return RestaurantService.get_all_products(restaurant_id)
 
     @api.doc("Create a new product",responses={200:"Success",500:"Internal Server Error"})
@@ -129,7 +129,7 @@ class RestaurantOrders(Resource):
 @api.route("/<int:restaurant_id>/orders")
 class RestaurantOrders(Resource):
     @api.doc("Get all orders of a specific restaurant",responses={200:"Success",500:"Internal Server Error"})
-    #@jwt_required() 
+    @jwt_required() 
     def get(self,restaurant_id):
         """
         Get all orders of a specific restaurant
