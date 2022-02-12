@@ -30,11 +30,12 @@ class UserService:
             return internal_err_resp()
 
     @staticmethod
-    def get_all_orders(user_id):
+    def get_all_orders():
         """
         Get all orders of a specific user
         
         """
+        user_id=get_jwt_identity()
         if not(orders := Order.query.filter_by(userid=user_id)):
             return err_resp("orders not found","orders_404",404)
         from .utils import load_order_data
@@ -64,6 +65,29 @@ class UserService:
             resp=message(True,"Order loaded successfully")
             resp["order"]=order_data
             return resp,200
+        except Exception as e:
+            current_app.logger.error(e)
+            return internal_err_resp()
+    
+    @staticmethod
+    def create_order(data):
+        """
+        Create a new order
+        
+        """
+        user_id=get_jwt_identity()
+        if not(product := Product.query.filter_by(id=data["product_id"]).first()):
+            return err_resp("product not found","product_404",404)
+        try:
+            from .utils import load_product_data
+            product_data=load_product_data(product)
+            if product_data["restaurant_id"]!=data["restaurant_id"]:
+                return err_resp("Given restaurant does not have this product","product_404",404)
+            order = Order(userid=user_id,restaurant_id=data["restaurant_id"],
+            product_id=data["product_id"],orderstatus="NEW",orderdate=datetime.utcnow())
+            db.session.add(order)
+            db.session.commit()
+            return message(True,"Order created successfully")
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
