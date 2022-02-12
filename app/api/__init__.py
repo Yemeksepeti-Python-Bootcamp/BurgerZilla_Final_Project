@@ -6,15 +6,15 @@ from .user.controller import api as user_ns
 from .restaurant.controller import api as restaurant_ns
 
 authorizations = {
-    'apikey': {
+    'Bearer Auth': {
         'type': 'apiKey',
         'in': 'header',
-        'name': 'X-API-KEY'
+        'name': 'Authorization'
     }
 }
 
 api_bp = Blueprint("api", __name__)
-api = Api(api_bp, version="1.", title="API", description="API",authorizations=authorizations)
+api = Api(api_bp, version="1.", title="API", description="API",authorizations=authorizations, security='Bearer Auth')
 
 
 api.add_namespace(user_ns)
