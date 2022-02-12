@@ -11,7 +11,7 @@ class LoginSchema(Schema):
     """
 
     email = fields.Email(required=True, validate=[Length(max=64)])
-    password = fields.Str(required=True, validate=[Length(min=8, max=128)])
+    password = fields.Str(required=True, validate=[Length(min=3, max=128)])
 
 
 class RegisterSchema(Schema):
@@ -27,5 +27,5 @@ class RegisterSchema(Schema):
     email = fields.Email(required=True, validate=[Length(max=64)])
     username = fields.Str(required=True,validate=[Length(min=4, max=15)])
     name = fields.Str(required=True,validate=[Length(min=4, max=15)])    
-    password = fields.Str(required=True, validate=[Length(min=8, max=128)])
+    password = fields.Str(required=True, validate=[Length(min=3, max=128)])
     usertype_id = fields.Integer(required=False)
