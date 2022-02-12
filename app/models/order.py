@@ -8,6 +8,7 @@ class Order(db.Model):
     userid = db.Column(db.Integer, db.ForeignKey('user.id'))
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id'))
     orderstatus = db.Column(db.String(64))
+    quantity = db.Column(db.Integer, default=1)
     orderdate = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):

@@ -24,6 +24,7 @@ class RestaurantDto:
         "restaurantid": fields.Integer(required=True, description="Restaurant id"),
         "userid": fields.Integer(required=True, description="User id"),
         "orderstatus": fields.String(required=True, description="Order status"),
+        "quantity": fields.Integer(required=True, description="Order quantity"),
         "orderdate": fields.DateTime(required=True, description="Order date")
     })
 
