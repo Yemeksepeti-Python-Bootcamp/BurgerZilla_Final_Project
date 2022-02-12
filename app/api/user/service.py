@@ -91,3 +91,48 @@ class UserService:
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
+
+    @staticmethod
+    def update_order(order_id,order_data):
+        """
+        Update a specific order
+        
+        """
+        try:
+            user_id=get_jwt_identity()
+            if not(order := Order.query.filter_by(id=order_id).first()):
+                return err_resp("order not found","order_404",404)
+            if order.userid!=user_id:
+                return err_resp("You can only update your orders","order_404",404)
+            if order.orderstatus=="NEW": #orderin statusu                
+                    quantity = order_data["quantity"]
+                    Order.query.filter_by(id=order_id).update({"quantity":quantity})
+                    db.session.commit()
+                    return message(True,"Order cancelled successfully")
+            else:
+                return err_resp("You can only update orders with status 'NEW'","order_404",404)
+        except Exception as e:
+            current_app.logger.error(e)
+            return internal_err_resp()
+
+    @staticmethod
+    def cancel_order(order_id):
+        """
+        Update a specific order
+        
+        """
+        try:
+            user_id=get_jwt_identity()
+            if not(order := Order.query.filter_by(id=order_id).first()):
+                return err_resp("order not found","order_404",404)
+            if order.userid!=user_id:
+                return err_resp("You can only cancel your orders","order_404",404)
+            if order.orderstatus=="NEW": #orderin statusu                
+                    Order.query.filter_by(id=order_id).update({"orderstatus":"CANCELLED"})
+                    db.session.commit()
+                    return message(True,"Order cancelled successfully")
+            else:
+                return err_resp("You can only cancel orders status with 'NEW'","order_404",404)
+        except Exception as e:
+            current_app.logger.error(e)
+            return internal_err_resp()

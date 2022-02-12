@@ -35,14 +35,6 @@ class UserGet(Resource):
 #         Get all orders of a user"""
 #         return UserService.get_all_orders(user_id)
 
-@api.route("/orders/<int:order_id>")
-class UserOrder(Resource):
-    @api.doc("Get a specific order",responses={200:"Success",500:"Internal Server Error"})
-    @jwt_required()
-    def get(self,order_id):
-        """
-        Get a specific order"""
-        return UserService.get_order_by_id(order_id)
 
 @api.route("/orders")
 class UserOrder(Resource):
@@ -61,3 +53,31 @@ class UserOrder(Resource):
         """
         Get all orders of a user"""
         return UserService.get_all_orders()
+
+@api.route("/orders/<int:order_id>")
+class UserOrder(Resource):
+    @api.doc("Get a specific order",responses={200:"Success",500:"Internal Server Error"})
+    @jwt_required()
+    def get(self,order_id):
+        """
+        Get a specific order"""
+        return UserService.get_order_by_id(order_id)
+    
+    @api.doc("Update a specific order",responses={200:"Success",500:"Internal Server Error"})
+    @api.expect(order)
+    @jwt_required()
+    def put(self,order_id):
+        """
+        Update a specific order"""
+        data = request.get_json()
+        return UserService.update_order(order_id,data)
+
+@api.route("/orders/cancel/<int:order_id>")
+class CancelOrder(Resource):
+    @api.doc("Cancel an order",responses={200:"Success",500:"Internal Server Error"})
+    @api.expect(order)
+    @jwt_required()
+    def put(self,order_id):
+        """
+        Cancel an order"""
+        return UserService.cancel_order(order_id)
