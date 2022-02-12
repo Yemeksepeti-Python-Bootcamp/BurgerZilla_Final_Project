@@ -88,7 +88,7 @@ class UserService:
             if product_data["restaurant_id"]!=data["restaurant_id"]:
                 return err_resp("Given restaurant does not have this product","product_404",404)
             order = Order(userid=user_id,restaurant_id=data["restaurant_id"],
-            product_id=data["product_id"],quantity=data["quantity"],orderstatus="NEW",orderdate=datetime.utcnow())
+            product_id=data["product_id"],quantity=data["quantity"], address=["address"],orderstatus="NEW",orderdate=datetime.utcnow())
             db.session.add(order)
             db.session.commit()
             return message(True,"Order created successfully")
