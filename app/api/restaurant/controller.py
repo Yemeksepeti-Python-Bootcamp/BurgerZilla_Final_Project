@@ -12,7 +12,16 @@ order=RestaurantDto.order
 data_resp=RestaurantDto.data_resp
 data_list_resp=RestaurantDto.data_list_resp
 
-
+@api.route('/')
+class RestaurantList(Resource):
+    @api.doc("Create a new restaurant",security='apiKey',params={'Authorization': {'in': 'header', 'description': "Example 'Bearer yourtoken':", 'required': True}},responses={200:"Success",500:"Internal Server Error"})
+    @api.expect(restaurant)
+    @jwt_required()
+    def post(self):
+        """
+        Create a new restaurant whose owner is the user_id"""
+        data = request.get_json()
+        return RestaurantService.create_restaurant(data)
 
 @api.route('/<int:restaurant_id>')
 class Restaurant(Resource):
@@ -38,7 +47,7 @@ class Restaurant(Resource):
     def put(self,restaurant_id):
         """ Update a specific restaurant"""
         data = request.get_json()
-        return RestaurantService.update_by_id(restaurant_id,data)
+        return RestaurantService.update_restaurant(restaurant_id,data)
 
 @api.route("/user/<int:user_id>")
 class RestaurantList(Resource):
@@ -50,14 +59,7 @@ class RestaurantList(Resource):
         return RestaurantService.get_all(user_id)
 
 
-    @api.doc("Create a new restaurant",responses={200:"Success",500:"Internal Server Error"})
-    @api.expect(restaurant)
-    @jwt_required()
-    def post(self,user_id):
-        """
-        Create a new restaurant whose owner is the user_id"""
-        data = request.get_json()
-        return RestaurantService.create_restaurant(user_id,data)
+
 
 @api.route("/<int:restaurant_id>/products")
 class RestaurantProducts(Resource):
