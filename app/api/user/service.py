@@ -11,10 +11,11 @@ from app.models.user import User
 
 class UserService:
     @staticmethod
-    def get_user_data(username): #örn bunu controllerda getbyusername için kullanıyoruz.
+    def get_user_data(): #örn bunu controllerda getbyusername için kullanıyoruz.
         """
         get user data"""
-        if not (user := User.query.filter_by(username=username).first()):
+        user_id = get_jwt_identity()
+        if not (user := User.query.filter_by(id=user_id).first()):
             return err_resp("User Not Found","user_404",404)
         
         from .utils import load_data
@@ -57,8 +58,11 @@ class UserService:
         Get a specific order
         
         """
+        user_id=get_jwt_identity()
         if not(order := Order.query.filter_by(id=order_id).first()):
-            return err_resp("order not found","order_404",404)
+            return err_resp("Order not found","order_404",404)
+        if order.userid!=user_id:
+            return err_resp("This order is not yours.","order_404",404)
         from .utils import load_order_data
         try:
             order_data = load_order_data(order)
@@ -104,9 +108,8 @@ class UserService:
                 return err_resp("order not found","order_404",404)
             if order.userid!=user_id:
                 return err_resp("You can only update your orders","order_404",404)
-            if order.orderstatus=="NEW": #orderin statusu                
-                    quantity = order_data["quantity"]
-                    Order.query.filter_by(id=order_id).update({"quantity":quantity})
+            if order.orderstatus=="NEW": #orderin statusu
+                    Order.query.filter_by(id=order_id).update(order_data)
                     db.session.commit()
                     return message(True,"Order cancelled successfully")
             else:
