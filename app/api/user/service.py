@@ -8,6 +8,7 @@ from app.models.product import Product
 from app.models.order import Order
 from app import db
 from app.models.user import User
+from .utils import load_order_data
 
 class UserService:
     @staticmethod
@@ -88,10 +89,13 @@ class UserService:
             if product_data["restaurant_id"]!=data["restaurant_id"]:
                 return err_resp("Given restaurant does not have this product","product_404",404)
             order = Order(userid=user_id,restaurant_id=data["restaurant_id"],
-            product_id=data["product_id"],quantity=data["quantity"], address=["address"],orderstatus="NEW",orderdate=datetime.utcnow())
+            product_id=data["product_id"],quantity=data["quantity"], address=data["address"],orderstatus="NEW",orderdate=datetime.utcnow())
             db.session.add(order)
-            db.session.commit()
-            return message(True,"Order created successfully")
+            db.session.commit()            
+            created_order_data = load_order_data(order)
+            resp=message(True,"Order created successfully")
+            resp["order"]=created_order_data
+            return resp,201
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
@@ -111,7 +115,10 @@ class UserService:
             if order.orderstatus=="NEW": #orderin statusu
                     Order.query.filter_by(id=order_id).update(order_data)
                     db.session.commit()
-                    return message(True,"Order cancelled successfully")
+                    updated_order_data = load_order_data(order)
+                    resp=message(True,"Order updated successfully")
+                    resp["order"]=updated_order_data
+                    return resp,200
             else:
                 return err_resp("You can only update orders with status 'NEW'","order_404",404)
         except Exception as e:
@@ -133,7 +140,10 @@ class UserService:
             if order.orderstatus=="NEW": #orderin statusu                
                     Order.query.filter_by(id=order_id).update({"orderstatus":"CANCELLED"})
                     db.session.commit()
-                    return message(True,"Order cancelled successfully")
+                    cancelled_order_data=load_order_data(order)
+                    resp=message(True,"Order cancelled successfully")
+                    resp["order"]=cancelled_order_data
+                    return resp,200
             else:
                 return err_resp("You can only cancel orders status with 'NEW'","order_404",404)
         except Exception as e:

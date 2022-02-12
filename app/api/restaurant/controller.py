@@ -32,14 +32,14 @@ class Restaurant(Resource):
     @jwt_required()
     def get(self,restaurant_id):
         """ get specific restaurant """
-        return RestaurantService.get_by_id(restaurant_id)
+        return RestaurantService.get_restaurant(restaurant_id)
     
     @api.doc("Delete a specific restaurant",responses={
         200:"Success"})
     @jwt_required()
     def delete(self,restaurant_id):
         """ Delete a specific restaurant"""
-        return RestaurantService.delete_by_id(restaurant_id)
+        return RestaurantService.delete_restaurant(restaurant_id)
 
     @api.doc("Update a specific restaurant",responses={200:"Success"})
     @api.expect(restaurant)
@@ -56,7 +56,7 @@ class RestaurantList(Resource):
     def get(self,user_id):
         """
         Get all restaurants of a specific user"""
-        return RestaurantService.get_all(user_id)
+        return RestaurantService.get_all_restaurants(user_id)
 
 
 

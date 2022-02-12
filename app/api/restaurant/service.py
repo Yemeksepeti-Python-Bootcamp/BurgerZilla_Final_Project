@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import current_app
-from .utils import load_data
+from .utils import load_data, load_order_data, load_product_data
 from app.models.schemas import RestaurantSchema
 from app.utils import err_resp,internal_err_resp,message
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -12,7 +12,7 @@ from app import db
 
 class RestaurantService:
     @staticmethod
-    def get_by_id(restaurant_id):
+    def get_restaurant(restaurant_id):
         """
         get a restaurant by id"""
         if not (restaurant := Restaurant.query.get(restaurant_id)):
@@ -28,7 +28,7 @@ class RestaurantService:
             return internal_err_resp()
 
     @staticmethod
-    def delete_by_id(restaurant_id):    
+    def delete_restaurant(restaurant_id):    
         """
         Delete a restaurant by id"""
         if not (restaurant := Restaurant.query.get(restaurant_id)):
@@ -80,7 +80,7 @@ class RestaurantService:
             return internal_err_resp()
         
     @staticmethod
-    def get_all(user_id):
+    def get_all_restaurants(user_id):
         """
         Get aLL restaurants by owner id"""
         if not(restaurants := Restaurant.query.filter_by(userid=user_id)):
@@ -144,7 +144,10 @@ class RestaurantService:
             product = Product(name=product_data["name"],price=product_data["price"],description=product_data["description"],image=product_data["image"],restaurant_id=restaurant_id)
             db.session.add(product)
             db.session.commit()
-            return message(True,"Product created successfully")
+            created_product_data=load_product_data(product)
+            resp=message(True,"Product created successfully")
+            resp["product"]=created_product_data
+            return resp,200
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
@@ -159,7 +162,10 @@ class RestaurantService:
             product_id=order_data["product_id"],orderstatus="NEW",orderdate=datetime.utcnow())
             db.session.add(order)
             db.session.commit()
-            return message(True,"Order created successfully")
+            created_order_data=load_order_data(order)
+            resp=message(True,"Product created successfully")
+            resp["order"]=created_order_data
+            return resp,200
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
@@ -230,7 +236,10 @@ class RestaurantService:
             order_status = order_data["orderstatus"]
             Order.query.filter_by(id=order_id).update({"orderstatus":order_status})
             db.session.commit()
-            return message(True,"Order status updated successfully")
+            updated_order_data=load_order_data(order)
+            resp=message(True,"Order updated successfully")
+            resp["order"]=updated_order_data
+            return resp,200
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
@@ -247,7 +256,10 @@ class RestaurantService:
         try:
             Product.query.filter_by(id=product_id).update(product_data)
             db.session.commit()
-            return message(True,"Product updated successfully")
+            updated_product_data=load_product_data(product)
+            resp=message(True,"Product updated successfully")
+            resp["product"]=updated_product_data
+            return resp,200
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
@@ -263,7 +275,10 @@ class RestaurantService:
         try:
             db.session.delete(product)
             db.session.commit()
-            return message(True,"Product deleted successfully")
+            deleted_product_data=load_data(product)
+            resp=message(True,"product deleted successfully")
+            resp["product"]=deleted_product_data
+            return resp,200
         except Exception as e:
             current_app.logger.error(e)
             return internal_err_resp()
