@@ -141,6 +141,7 @@ class UserService:
                     Order.query.filter_by(id=order_id).update({"orderstatus":"CANCELLED"})
                     db.session.commit()
                     cancelled_order_data=load_order_data(order)
+                    cancelled_order_data["orderstatus"]="CANCELLED"
                     resp=message(True,"Order cancelled successfully")
                     resp["order"]=cancelled_order_data
                     return resp,200
