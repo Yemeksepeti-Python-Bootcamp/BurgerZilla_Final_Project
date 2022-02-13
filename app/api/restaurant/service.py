@@ -109,7 +109,7 @@ class RestaurantService:
         from .utils import load_product_data
         try:
             products_data = [load_product_data(product) for product in products]
-            resp=message(True,"Restaurants loaded successfully")
+            resp=message(True,"Products loaded successfully")
             resp["products"]=products_data
             return resp,200
         except Exception as e:
