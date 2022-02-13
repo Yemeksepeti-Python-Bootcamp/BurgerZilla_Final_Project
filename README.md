@@ -320,7 +320,7 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 ## Get All Products of a Restaurant
 
 #### Request Type: GET
-#### Request to: <strong> 127.0.0.1:5000/api/restaurant/<restaurant id:int>/products </strong>
+#### Request to: <strong> 127.0.0.1:5000/api/restaurant/<restaurant_id:int>/products </strong>
 
    Response will be the all products of the restaurant. </br>
    Since it is the menu of the specified restaurant, token is not needed.
@@ -354,7 +354,7 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 ## Get Specific Product From a Specific Restaurant
 
 #### Request Type: GET
-#### Request to: <strong> 127.0.0.1:5000/api/restaurant/<restaurant id:int>/products/<product_id:int> </strong>
+#### Request to: <strong> 127.0.0.1:5000/api/restaurant/<restaurant_id:int>/products/<product_id:int> </strong>
 
    Response will be the single product of given restaurant. </br>
    Since it is a part of menu of the specified restaurant, token is not needed.
@@ -409,3 +409,113 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
     }
 }
 ```
+   
+## Get All Orders of a Restaurant
+
+#### Request Type: GET
+#### Request to: <strong> 127.0.0.1:5000/api/restaurant/<restaurant_id:int>/orders </strong>
+
+   Response will be the all orders of the restaurant. </br>
+   Only restaurant owner can see, so token is needed.
+
+### Response
+```json
+{
+    "status": true,
+    "message": "Orders loaded successfully",
+    "orders": [
+        {
+            "product_id": 1,
+            "id": 1,
+            "orderdate": "2022-02-13T15:44:37.730014",
+            "quantity": 1,
+            "userid": 5,
+            "orderstatus": "CANCELLED",
+            "address": "Kaer Morhen Sokak 15/3",
+            "restaurant_id": 2
+        },
+        {
+            "product_id": 2,
+            "id": 2,
+            "orderdate": "2022-02-13T15:47:23.831123",
+            "quantity": 2,
+            "userid": 4,
+            "orderstatus": "DELIVERED",
+            "address": "Isildur Mh 111sk",
+            "restaurant_id": 2
+        },
+        {
+            "product_id": 2,
+            "id": 3,
+            "orderdate": "2022-02-13T16:05:28.180374",
+            "quantity": 3,
+            "userid": 5,
+            "orderstatus": "NEW",
+            "address": "büyükdere mahallesi düzgün sokak 15/5",
+            "restaurant_id": 2
+        }
+    ]
+}
+```
+   
+   
+## Get Specific Order By ID
+
+#### Request Type: GET
+#### Request to: <strong> 127.0.0.1:5000/api/restaurant/<restaurant_id:int>/orders/<order_id:int> </strong>
+
+   Response will be the single order of given restaurant. </br>
+   Since it is a restaurant endpoint, only restaurant owner can see, so bearer token is needed.
+
+### Response
+```json
+{
+    "status": true,
+    "message": "Order loaded successfully",
+    "order": {
+        "product_id": 2,
+        "id": 3,
+        "orderdate": "2022-02-13T16:05:28.180374",
+        "quantity": 3,
+        "userid": 5,
+        "orderstatus": "NEW",
+        "address": "büyükdere mahallesi düzgün sokak 15/5",
+        "restaurant_id": 2
+    }
+}
+```
+   
+## Update Order
+
+
+#### Request to: <strong> 127.0.0.1:5000/api/restaurant/orders/<order_id:int> </strong>
+#### Request Type: PUT
+
+#### Request Body
+
+```json
+{
+    "orderstatus":"DELIVERED"
+}
+```
+
+Restaurant owner can change the status of the order, bearer token is needed
+
+### Response
+```json
+{
+    "status": true,
+    "message": "Order updated successfully",
+    "order": {
+        "product_id": 2,
+        "id": 3,
+        "orderdate": "2022-02-13T16:05:28.180374",
+        "quantity": 3,
+        "userid": 5,
+        "orderstatus": "DELIVERED",
+        "address": "büyükdere mahallesi düzgün sokak 15/5",
+        "restaurant_id": 2
+    }
+}
+```
+
