@@ -56,10 +56,8 @@ class TestRestaurantBlueprint(BaseTestCase):
 
         restaurant_resp = get_restaurant_data(self,access_token,r.id)
         restaurant_data = json.loads(restaurant_resp.data.decode())
-
-        self.assertTrue(restaurant_data.status == 200)
+        
+        self.assertTrue(restaurant_data["status"] == True)
         self.assertTrue(restaurant_data["restaurant"]['name'] == 'TestRestaurant1')
         self.assertTrue(restaurant_data["restaurant"]['userid'] == 1)
 
-        data_404_resp = get_restaurant_data(self,access_token,1)
-        self.assertEquals(data_404_resp.status_code, 400)
