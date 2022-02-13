@@ -123,7 +123,7 @@ class RestaurantService:
         
         """
         if not(product := Product.query.filter_by(restaurant_id=restaurant_id,id=product_id).first()):
-            return err_resp(message="product not found",status=400)
+            return err_resp("product not found","productnotfound",400)
         from .utils import load_product_data
         try:
             product_data = load_product_data(product)
@@ -208,7 +208,7 @@ class RestaurantService:
         if current_user != restaurant.userid:
             return err_resp("You are not authorized to see restaurant orders","YoureNotRestaurantOwner 401",401)            
         if not(orders := Order.query.filter_by(restaurant_id=restaurant_id)):
-            return err_resp(message="orders not found",status=400)
+            return err_resp("orders not found","order404",400)
         from .utils import load_order_data
         try:
             orders_data = [load_order_data(order) for order in orders]
