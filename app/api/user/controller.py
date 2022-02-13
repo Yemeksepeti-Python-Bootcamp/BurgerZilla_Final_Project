@@ -15,7 +15,7 @@ order=UserDto.order
 
 @api.route("/")
 class UserGet(Resource):
-    @api.doc("get user details by username",responses={
+    @api.doc("get user details",responses={
         200:("Success",data_resp),
         404:"User Not Found",
     })
