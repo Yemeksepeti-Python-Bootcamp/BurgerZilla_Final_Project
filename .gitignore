@@ -1,8 +1,5 @@
 /env
 /migrations
-/req.txt
-/requirements.txt
-/test
 /__pycache__
 .DS_Store
 .env
