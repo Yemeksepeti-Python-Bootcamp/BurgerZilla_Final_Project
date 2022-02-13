@@ -59,26 +59,26 @@ def insertdb():
         db.session.bulk_save_objects(usertypes)
         db.session.commit()
         users=[
-            User(id=1,username="ugurozy",name="Uğur Özyalı",email="ugurozy@musteri.nett",password="123",usertype_id=0),
-            User(id=2,username="ezelozy",name="Ezel Özyalı",email="ezelozy@musteri.nett",password="123",usertype_id=0),
-            User(id=3,username="omerk",name="Ömer Kandor",email="omerk@restoran.nett",password="123",usertype_id=1),
-            User(id=4,username="tuncd",name="Tunç Dimdal",email="tuncd@restoran.nett",password="123",usertype_id=1)
+            User(username="ugurozy",name="Uğur Özyalı",email="ugurozy@musteri.nett",password="123",usertype_id=0),
+            User(username="ezelozy",name="Ezel Özyalı",email="ezelozy@musteri.nett",password="123",usertype_id=0),
+            User(username="omerk",name="Ömer Kandor",email="omerk@restoran.nett",password="123",usertype_id=1),
+            User(username="tuncd",name="Tunç Dimdal",email="tuncd@restoran.nett",password="123",usertype_id=1)
             ] 
         db.session.bulk_save_objects(users)
         db.session.commit()
         restaurants=[
-            Restaurant(id=1,name="Dombili Burger",userid=3),
-            Restaurant(id=2,name="Dublemumble",userid=4)
+            Restaurant(name="Dombili Burger",userid=3),
+            Restaurant(name="Dublemumble",userid=4)
         ]
         db.session.bulk_save_objects(restaurants)
         db.session.commit()
         products=[
-            Product(id=1,name="Bombili",price=30,description="Meşhur dombili burger, özel soslu, sarmısaklı ve soğanlı",image="x-txmt-filehandle://job/Preview/resource/dombili1.jpg",restaurant_id=1),
-            Product(id=2,name="Duble Peynirli",price=50,description="Çift katlı, mozerella ve çedarla bezenmiş dombili burger",image="x-txmt-filehandle://job/Preview/resource/dombili2.jpg",restaurant_id=1),
-            Product(id=3,name="Aç doyuran",price=75,description="Üç katlı, zeytin soslu,özel ketçap ve tatlı mayonezli burger ve patates",image="x-txmt-filehandle://job/Preview/resource/dombili3.jpg",restaurant_id=1),
-            Product(id=4,name="Tekkatlı",price=25,description="Bol domatesli, özel muble soslu",image="x-txmt-filehandle://job/Preview/resource/dublemuble1.jpg",restaurant_id=2),
-            Product(id=5,name="Dublemuble",price=45,description="Çift katlı, beyaz peynir + kaşar peynir soslu, duble hamburger",image="x-txmt-filehandle://job/Preview/resource/dublemuble2.jpg",restaurant_id=2),
-            Product(id=6,name="Delüks",price=70,description="Özel dublemuble burger, patates ve eritme peynirle birlikte",image="x-txmt-filehandle://job/Preview/resource/dublemuble3.jpg",restaurant_id=2)
+            Product(name="Bombili",price=30,description="Meşhur dombili burger, özel soslu, sarmısaklı ve soğanlı",image="x-txmt-filehandle://job/Preview/resource/dombili1.jpg",restaurant_id=1),
+            Product(name="Duble Peynirli",price=50,description="Çift katlı, mozerella ve çedarla bezenmiş dombili burger",image="x-txmt-filehandle://job/Preview/resource/dombili2.jpg",restaurant_id=1),
+            Product(name="Aç doyuran",price=75,description="Üç katlı, zeytin soslu,özel ketçap ve tatlı mayonezli burger ve patates",image="x-txmt-filehandle://job/Preview/resource/dombili3.jpg",restaurant_id=1),
+            Product(name="Tekkatlı",price=25,description="Bol domatesli, özel muble soslu",image="x-txmt-filehandle://job/Preview/resource/dublemuble1.jpg",restaurant_id=2),
+            Product(name="Dublemuble",price=45,description="Çift katlı, beyaz peynir + kaşar peynir soslu, duble hamburger",image="x-txmt-filehandle://job/Preview/resource/dublemuble2.jpg",restaurant_id=2),
+            Product(name="Delüks",price=70,description="Özel dublemuble burger, patates ve eritme peynirle birlikte",image="x-txmt-filehandle://job/Preview/resource/dublemuble3.jpg",restaurant_id=2)
         ]
         db.session.bulk_save_objects(products)
         db.session.commit()
