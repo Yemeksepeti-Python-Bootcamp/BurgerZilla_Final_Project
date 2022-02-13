@@ -15,10 +15,12 @@ class RestaurantService:
     def get_restaurant(restaurant_id):
         """
         get a restaurant by id"""
-        if not (restaurant := Restaurant.query.get(restaurant_id)):
-            return err_resp(message="Restaurant not found",status=400)
-        from .utils import load_data
-        try:
+        current_user=get_jwt_identity()
+        if not(restaurant := Restaurant.query.get(restaurant_id)):
+            return err_resp("restaurant not found","restaurant404",400)
+        if current_user != restaurant.userid:
+            return err_resp("You are not authorized to see restaurant orders","YoureNotRestaurantOwner 401",401)     
+        try:            
             restaurant_data = load_data(restaurant)
             resp=message(True,"Restaurant loaded successfully")
             resp["restaurant"]=restaurant_data
@@ -32,7 +34,7 @@ class RestaurantService:
         """
         Delete a restaurant by id"""
         if not (restaurant := Restaurant.query.get(restaurant_id)):
-            return err_resp(message="Restaurant not found",status=400)
+            return err_resp("restaurant not found","restaurant404",400)
         try:
             db.session.delete(restaurant)
             db.session.commit()
@@ -67,7 +69,7 @@ class RestaurantService:
         """
         update a restaurant by id"""
         if not (restaurant:=Restaurant.query.get(restaurant_id)):
-            return err_resp(message="Restaurant not found",status=400)
+            return err_resp("restaurant not found","restaurant404",400)
         try:
             Restaurant.query.filter_by(id=restaurant_id).update(restaurant_data)
             db.session.commit()
