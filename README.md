@@ -5,10 +5,10 @@ Restaurant owners can add, update and delete products.They can also manage their
 In addition, users can access and order the products of the restaurant. They can update and cancel their orders. <br />
 
 # Libs & Modules & Framework
-Flask
-Flask-RESTX (community driven fork of Flask-RESTPlus)
-Flask-SQLAlchemy
-psycopg2-binary
+Flask </br>
+Flask-RESTX (community driven fork of Flask-RESTPlus) </br>
+Flask-SQLAlchemy </br>
+psycopg2-binary </br>
 
 ## Burgerzilla File Structure 
 ```
@@ -130,9 +130,7 @@ Here, user_type is optional parameter and if not given it's default 0
     "password":"123"
 }
 ```
-usertype_id=1 if you are Restaurant Owner, </br>
-usertype_id=0 if you are Customer </br>
-Here, user_type is optional parameter and if not given it's default 0
+email and password is <strong>required</strong>
 
 ### Response
 ```json
@@ -150,9 +148,9 @@ Here, user_type is optional parameter and if not given it's default 0
 }
 ```
 
-# USER/CUSTOMER ENDPOINTS
+# USER ENDPOINTS
 
-User endpoints is inside 'api/user' namespace.
+User(Customer) endpoints is inside 'api/user' namespace.
 
 ## Get All Orders of a User
 
@@ -315,5 +313,45 @@ Make put request the given url with order_id
 }
 ```
 
-   
+# RESTAURANT ENDPOINTS
+
+Restaurant endpoints is inside 'api/restaurant' namespace.
+
+## Get All Products of a Restaurant
+
+#### Request Type: GET
+#### Request to: <strong> 127.0.0.1:5000/api/restaurant/<restaurant id:int>/products </strong>
+
+   Response will be the all products of the restaurant. </br>
+   Since it is the menu of the specified restaurant, token is not needed.
+
+### Response
+```json
+{
+    "status": true,
+    "message": "Orders loaded successfully",
+    "orders": [
+        {
+            "product_id": 1,
+            "orderdate": "2022-02-13T15:44:37.730014",
+            "quantity": 1,
+            "orderstatus": "CANCELLED",
+            "restaurant_id": 2,
+            "userid": 5,
+            "id": 1,
+            "address": "Kaer Morhen Sokak 15/3"
+        },
+        {
+            "product_id": 2,
+            "orderdate": "2022-02-13T16:05:28.180374",
+            "quantity": 3,
+            "orderstatus": "NEW",
+            "restaurant_id": 2,
+            "userid": 5,
+            "id": 3,
+            "address": "büyükdere mahallesi düzgün sokak 15/5"
+        }
+    ]
+}
+```
 
