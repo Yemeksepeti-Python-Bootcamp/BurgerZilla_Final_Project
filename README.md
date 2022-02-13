@@ -329,29 +329,83 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 ```json
 {
     "status": true,
-    "message": "Orders loaded successfully",
-    "orders": [
+    "message": "Products loaded successfully",
+    "products": [
         {
-            "product_id": 1,
-            "orderdate": "2022-02-13T15:44:37.730014",
-            "quantity": 1,
-            "orderstatus": "CANCELLED",
-            "restaurant_id": 2,
-            "userid": 5,
+            "name": "Bombili",
             "id": 1,
-            "address": "Kaer Morhen Sokak 15/3"
+            "price": 30.0,
+            "description": "meşhur dombili burger, özel soslu ve sarımsaklı",
+            "restaurant_id": 2,
+            "image": "dombiliburger.jpg"
         },
         {
-            "product_id": 2,
-            "orderdate": "2022-02-13T16:05:28.180374",
-            "quantity": 3,
-            "orderstatus": "NEW",
+            "name": "Duble Peynirli",
+            "id": 2,
+            "price": 50.0,
+            "description": "çift katlı mozarella çedar dombili burger",
             "restaurant_id": 2,
-            "userid": 5,
-            "id": 3,
-            "address": "büyükdere mahallesi düzgün sokak 15/5"
+            "image": "dublepeynir.jpg"
         }
     ]
 }
 ```
 
+## Get Specific Product From a Specific Restaurant
+
+#### Request Type: GET
+#### Request to: <strong> 127.0.0.1:5000/api/restaurant/<restaurant id:int>/products/<product_id:int> </strong>
+
+   Response will be the single product of given restaurant. </br>
+   Since it is a part of menu of the specified restaurant, token is not needed.
+
+### Response
+```json
+{
+    "status": true,
+    "message": "Product loaded successfully",
+    "product": {
+        "name": "Duble Peynirli",
+        "id": 2,
+        "price": 50.0,
+        "description": "çift katlı mozarella çedar dombili burger",
+        "restaurant_id": 2,
+        "image": "dublepeynir.jpg"
+    }
+}
+```
+   
+## Create Product
+
+
+#### Request to: <strong> 127.0.0.1:5000/api/user/orders </strong>
+#### Request Type: POST
+
+   Restaurant owners can add new products to their restaurant from here. </br>
+   Token is needed to authorize restaurant owner.
+
+```json
+        {
+            "name": "Duble Peynirli",
+            "description": "çift katlı mozarella çedar dombili burger",
+            "price": 50,
+            "image": "dublepeynir.jpg"
+        }
+```
+
+
+### Response
+```json
+{
+    "status": true,
+    "message": "Product created successfully",
+    "product": {
+        "price": 50.0,
+        "restaurant_id": 2,
+        "image": "dublepeynir.jpg",
+        "description": "çift katlı mozarella çedar dombili burger",
+        "id": 2,
+        "name": "Duble Peynirli"
+    }
+}
+```
