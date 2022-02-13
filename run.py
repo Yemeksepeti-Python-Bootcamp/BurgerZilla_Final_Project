@@ -55,6 +55,4 @@ def insertdb():
         db.session.add(restoran)
         db.session.add(user)
         db.session.commit()
-        print("INITIAL USER_TYPE VALUES INSERTED TO DATABASE")
-        print("SINCE USERTYPE_ID IS FOREIGN KEY IN USER TABLE")
-        print("IT IS NECESSARY TO INSERT VALUES TO USERTYPE TABLE BEFORE INSERTING VALUES TO USER TABLE")
+#check if i still commit in github-clasroom after i transfer my repo
