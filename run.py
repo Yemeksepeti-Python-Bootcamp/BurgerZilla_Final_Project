@@ -17,9 +17,8 @@ from app.models.user import User
 app = create_app(os.getenv("FLASK_CONFIG") or "default")
 
 migrate = Migrate(app, db)
-# with app.app_context():
-#     UserType.inital_insert()
-#
+
+
 @app.shell_context_processor
 def make_shell_context():
     return dict(db=db, User=User, Restaurant=Restaurant)
@@ -47,3 +46,15 @@ def test(test_names):
 
     # Return 1 if tests failed, won't reach here if succeeded.
     return 1
+
+@app.cli.command()
+def insertdb():
+    if UserType.query.first() is None:
+        restoran=UserType(id=0,name='Restaurant')
+        user=UserType(id=1,name='User')
+        db.session.add(restoran)
+        db.session.add(user)
+        db.session.commit()
+        print("INITIAL USER_TYPE VALUES INSERTED TO DATABASE")
+        print("SINCE USERTYPE_ID IS FOREIGN KEY IN USER TABLE")
+        print("IT IS NECESSARY TO INSERT VALUES TO USERTYPE TABLE BEFORE INSERTING VALUES TO USER TABLE")

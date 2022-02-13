@@ -8,12 +8,4 @@ class UserType(db.Model):
     def __repr__(self):
         return '<UserType {}>'.format(self.name)
 
-    @staticmethod #BURAYI SONRADAN SİLEBİLİRİM run.py de çağırdığım  yerle birlikte
-    def inital_insert():        
-        if UserType.query.first() is None:
-            restoran=UserType(id=0,name='Restaurant')
-            user=UserType(id=1,name='User')
-            db.session.add(restoran)
-            db.session.add(user)
-            db.session.commit()
-            
+   
