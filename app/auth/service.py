@@ -52,7 +52,7 @@ class AuthService:
         elif User.query.filter_by(username=username).first():
             return err_resp('Bu kullanıcı adı kullanılıyor',"username_409",409)
         try:
-            # kullanıcı oluştu
+            #
             user = User(email=email,
                             username=username,
                             name=name,

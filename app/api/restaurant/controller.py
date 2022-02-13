@@ -49,14 +49,14 @@ class Restaurant(Resource):
         data = request.get_json()
         return RestaurantService.update_restaurant(restaurant_id,data)
 
-@api.route("/user/<int:user_id>")
+@api.route("/user")
 class RestaurantList(Resource):
     @api.doc("Get restaurant by owner id",responses={200:"Success",500:"Internal Server Error"})
     @jwt_required()
-    def get(self,user_id):
+    def get(self):
         """
         Get all restaurants of a specific user"""
-        return RestaurantService.get_all_restaurants(user_id)
+        return RestaurantService.get_all_restaurants()
 
 
 

@@ -80,10 +80,11 @@ class RestaurantService:
             return internal_err_resp()
         
     @staticmethod
-    def get_all_restaurants(user_id):
+    def get_all_restaurants():
         """
         Get aLL restaurants by owner id"""
-        if not(restaurants := Restaurant.query.filter_by(userid=user_id)):
+        current_user = get_jwt_identity()
+        if not(restaurants := Restaurant.query.filter_by(userid=current_user)):
             return err_resp(message="restaurants not found",status=400)
         from .utils import load_data
         try:
