@@ -87,7 +87,7 @@ Register and Login endpoints is inside 'auth' namespace.
 ## Register
 
 
-#### Request to: <strong> 127.0.0.1:5000/auth/register </strong>
+#### Request to: <strong> 127.0.0.1:80/auth/register </strong>
 #### Request Type: POST
 
 
@@ -123,7 +123,7 @@ Here, user_type is optional parameter and if not given it's default 0
 ## Login
 
 
-#### Request to: <strong> 127.0.0.1:5000/auth/login </strong>
+#### Request to: <strong> 127.0.0.1:80/auth/login </strong>
 #### Request Type: POST
 
 
@@ -159,7 +159,7 @@ User(Customer) endpoints is inside 'api/user' namespace.
 ## Get All Orders of a User
 
 #### Request Type: GET
-#### Request to: <strong> 127.0.0.1:5000/api/user/orders </strong>
+#### Request to: <strong> 127.0.0.1:80/api/user/orders </strong>
 
 Response will be the all orders given by the authorized user.
 
@@ -195,7 +195,7 @@ Response will be the all orders given by the authorized user.
 ## Get Order by ID
 
 #### Request Type: GET
-#### Request to: <strong> 127.0.0.1:5000/api/user/orders/<order_id:int> </strong>
+#### Request to: <strong> 127.0.0.1:80/api/user/orders/<order_id:int> </strong>
 
 Response will be the specific order given by the authorized user.
 
@@ -221,7 +221,7 @@ Response will be the specific order given by the authorized user.
 ## Create Order
 
 
-#### Request to: <strong> 127.0.0.1:5000/api/user/orders </strong>
+#### Request to: <strong> 127.0.0.1:80/api/user/orders </strong>
 #### Request Type: POST
 
 
@@ -256,7 +256,7 @@ Response will be the specific order given by the authorized user.
 ## Update Order
 
 
-#### Request to: <strong> 127.0.0.1:5000/api/user/orders/<order_id:int> </strong>
+#### Request to: <strong> 127.0.0.1:80/api/user/orders/<order_id:int> </strong>
 #### Request Type: PUT
 
 
@@ -292,7 +292,7 @@ To update, you can change quantity, address or product that you ordered IF the o
 ## Cancel Order
 
 
-#### Request to: <strong> 127.0.0.1:5000/api/user/orders/cancel/<order_id:int> </strong>
+#### Request to: <strong> 127.0.0.1:80/api/user/orders/cancel/<order_id:int> </strong>
 #### Request Type: PUT
 
 Don't need a send body for the cancel request.
@@ -324,7 +324,7 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 ## Get All Products of a Restaurant
 
 #### Request Type: GET
-#### Request to: <strong> 127.0.0.1:5000/api/restaurant/<restaurant_id:int>/products </strong>
+#### Request to: <strong> 127.0.0.1:80/api/restaurant/<restaurant_id:int>/products </strong>
 
    Response will be the all products of the restaurant. </br>
    Since it is the menu of the specified restaurant, token is not needed.
@@ -358,7 +358,7 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 ## Get Specific Product From a Specific Restaurant
 
 #### Request Type: GET
-#### Request to: <strong> 127.0.0.1:5000/api/restaurant/<restaurant_id:int>/products/<product_id:int> </strong>
+#### Request to: <strong> 127.0.0.1:80/api/restaurant/<restaurant_id:int>/products/<product_id:int> </strong>
 
    Response will be the single product of given restaurant. </br>
    Since it is a part of menu of the specified restaurant, token is not needed.
@@ -382,7 +382,7 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 ## Create Product
 
 
-#### Request to: <strong> 127.0.0.1:5000/api/user/products </strong>
+#### Request to: <strong> 127.0.0.1:80/api/user/products </strong>
 #### Request Type: POST
 
    Restaurant owners can add new products to their restaurant from here. </br>
@@ -417,7 +417,7 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 ## Get All Orders of a Restaurant
 
 #### Request Type: GET
-#### Request to: <strong> 127.0.0.1:5000/api/restaurant/<restaurant_id:int>/orders </strong>
+#### Request to: <strong> 127.0.0.1:80/api/restaurant/<restaurant_id:int>/orders </strong>
 
    Response will be the all orders of the restaurant. </br>
    Only restaurant owner can see, so token is needed.
@@ -466,7 +466,7 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 ## Get Specific Order By ID
 
 #### Request Type: GET
-#### Request to: <strong> 127.0.0.1:5000/api/restaurant/<restaurant_id:int>/orders/<order_id:int> </strong>
+#### Request to: <strong> 127.0.0.1:80/api/restaurant/<restaurant_id:int>/orders/<order_id:int> </strong>
 
    Response will be the single order of given restaurant. </br>
    Since it is a restaurant endpoint, only restaurant owner can see, so bearer token is needed.
@@ -492,7 +492,7 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 ## Update Order
 
 
-#### Request to: <strong> 127.0.0.1:5000/api/restaurant/orders/<order_id:int> </strong>
+#### Request to: <strong> 127.0.0.1:80/api/restaurant/orders/<order_id:int> </strong>
 #### Request Type: PUT
 
 #### Request Body
@@ -530,7 +530,7 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 ### Create Restaurant
 
 
-#### Request to: <strong> 127.0.0.1:5000/api/restaurant/ </strong>
+#### Request to: <strong> 127.0.0.1:80/api/restaurant/ </strong>
 #### Request Type: POST
 
    Can create restaurant by using this endpoint. </br>
@@ -672,7 +672,7 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 ## Get User Details
 
 
-#### Request to: <strong> localhost:5000/api/user </strong>
+#### Request to: <strong> localhost:80/api/user </strong>
 #### Request Type: GET
 
 
