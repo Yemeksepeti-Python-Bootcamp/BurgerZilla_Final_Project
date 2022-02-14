@@ -1,14 +1,17 @@
-# Burgerzilla
+# Burgerzilla 
 
 Burgerzilla REST microservice provides order communication between customers and restaurants.<br /> 
 Restaurant owners can add, update and delete products.They can also manage their orders. <br />
 In addition, users can access and order the products of the restaurant. They can update and cancel their orders. <br />
 
-# Libs & Modules & Framework
-Flask </br>
-Flask-RESTX (community driven fork of Flask-RESTPlus) </br>
-Flask-SQLAlchemy </br>
-psycopg2-binary </br>
+## Main Packages
+
+* `Flask` </br>
+* `Flask-RESTX (community driven fork of Flask-RESTPlus)` </br>
+* `Flask-SQLAlchemy` </br>
+* `Flask-JWT-Extended`
+* `psycopg2-binary` </br>
+* `flask_bcrypt`
 
 ## Burgerzilla File Structure 
 ```
@@ -70,7 +73,7 @@ burgerzilla
 <img alt="DB_Schema.png" height="500" src="https://user-images.githubusercontent.com/38858819/153782977-9f7abaec-7667-4cfd-8df0-0d862604dd34.png" width="800"/>
 
 
-## Run the app
+## Run the app from Docker
 To run the application, these 2 docker commands should be used.
 
     docker build -t burgerzilla:latest .
@@ -79,6 +82,18 @@ To run the application, these 2 docker commands should be used.
 boot.sh includes a script which can put some initial data to our database.
 
 After these two commands, application will be running on <strong>localhost:80</strong>
+
+## Run the app on local
+For run the application on your local machine, create a virtual environment. </br>
+After you active the env, install requirements.txt and flask run!
+
+    virtualenv env
+    $ source env/bin/activate 
+    pip install -r requirements.txt
+    flask run
+    
+
+    
 
 # AUTH ENDPOINTS
 
