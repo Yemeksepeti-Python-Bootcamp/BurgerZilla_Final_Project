@@ -31,7 +31,7 @@ class TestUserBlueprint(BaseTestCase):
         access_token = create_access_token(identity=user.id)
 
         user_resp = get_user_data(self, access_token)
-        print(user_resp.data)
+        
         user_data = json.loads(user_resp.data.decode())
 
         self.assertTrue(user_resp.status)
