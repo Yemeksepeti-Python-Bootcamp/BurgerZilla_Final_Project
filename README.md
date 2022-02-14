@@ -66,6 +66,10 @@ burgerzilla
    └─ __init__.py
 ```
 
+## Database Design
+<img alt="DB_Schema.png" height="500" src="https://user-images.githubusercontent.com/38858819/153782977-9f7abaec-7667-4cfd-8df0-0d862604dd34.png" width="800"/>
+
+
 ## Run the app
 To run the application, these 2 docker commands should be used.
 
@@ -378,7 +382,7 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 ## Create Product
 
 
-#### Request to: <strong> 127.0.0.1:5000/api/user/orders </strong>
+#### Request to: <strong> 127.0.0.1:5000/api/user/products </strong>
 #### Request Type: POST
 
    Restaurant owners can add new products to their restaurant from here. </br>
@@ -493,13 +497,13 @@ Restaurant endpoints is inside 'api/restaurant' namespace.
 
 #### Request Body
 
+ Restaurant owner can change the status of the order, bearer token is needed
+
 ```json
 {
     "orderstatus":"DELIVERED"
 }
 ```
-
-Restaurant owner can change the status of the order, bearer token is needed
 
 ### Response
 ```json
@@ -518,4 +522,177 @@ Restaurant owner can change the status of the order, bearer token is needed
     }
 }
 ```
+   
+-----
+   
+##  Additional Endpoints  
+   
+### Create Restaurant
 
+
+#### Request to: <strong> 127.0.0.1:5000/api/restaurant/ </strong>
+#### Request Type: POST
+
+   Can create restaurant by using this endpoint. </br>
+   Token is needed.
+
+```json
+{
+    "name":"Dombili Burger2"
+}
+```
+
+
+### Response
+```json
+{
+    "status": true,
+    "message": "Restaurant created successfully",
+    "restaurant": {
+        "id": 3,
+        "name": "Dombili Burger2",
+        "userid": 3
+    }
+}
+```
+## Update Restaurant by ID
+
+
+#### Request to: <strong> 127.0.0.1:80/api/restaurant/<restaurant_id:int> </strong>
+#### Request Type: PUT
+
+#### Request Body
+
+ Restaurant owner can change the name of the restaurant, bearer token is needed
+
+```json
+{
+    "name":"NewName Restoran"
+}
+```
+
+### Response
+```json
+{
+    "status": true,
+    "message": "Restaurant updated successfully",
+    "restaurant": {
+        "id": 1,
+        "name": "NewName Restoran",
+        "userid": 3
+    }
+}
+```
+## Get User's Restaurant 
+
+
+#### Request to: <strong> 127.0.0.1:80/api/restaurant/user </strong>
+#### Request Type: GET
+
+
+
+ Get all restaurants of a user.
+ Token is needed to identify user whether if restaurant owner or not.
+
+
+### Response
+```json
+{
+    "status": true,
+    "message": "Restaurants loaded successfully",
+    "restaurants": [
+        {
+            "id": 3,
+            "name": "Dombili Burger2",
+            "userid": 3
+        },
+        {
+            "id": 1,
+            "name": "Updated Restoran",
+            "userid": 3
+        }
+    ]
+}
+   
+```
+   
+## Delete Restaurant by Restaurant ID
+
+
+#### Request to: <strong> 127.0.0.1:80/api/restaurant/<restaurant_id:int> </strong>
+#### Request Type: DELETE
+
+
+
+ Delete restaurant by restaurant id.
+ Token is needed.
+
+
+### Response
+```json
+{
+    "status": true,
+    "message": "Restaurant deleted successfully",
+    "restaurant": {
+        "id": 1,
+        "name": "Dombili Burger",
+        "userid": 3
+    }
+}
+   
+```
+
+## Get Restaurant by Restaurant ID
+
+
+#### Request to: <strong> 127.0.0.1:80/api/restaurant/<restaurant_id:int> </strong>
+#### Request Type: GET
+
+
+
+ GET restaurant by restaurant id.
+ Token is needed.
+
+
+### Response
+```json
+{
+    "status": true,
+    "message": "Restaurant loaded successfully",
+    "restaurant": {
+        "id": 5,
+        "name": "Dombili Burger2",
+        "userid": 3
+    }
+}
+   
+```
+   
+   
+## Get User Details
+
+
+#### Request to: <strong> localhost:5000/api/user </strong>
+#### Request Type: GET
+
+
+
+ GET user details.
+ Token is needed.
+
+
+### Response
+```json
+{
+    "status": true,
+    "message": "User data sent",
+    "user": {
+        "usertype_id": 1,
+        "id": 3,
+        "username": "omerk",
+        "name": "Ömer Kandor",
+        "email": "omerk@restoran.nett"
+    }
+}
+   
+```
